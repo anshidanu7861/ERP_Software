@@ -12,4 +12,5 @@ Frontend
 3.Return to the main folder: cd..
 
 Run Both Server
+npm install
 Running the Project npm run dev

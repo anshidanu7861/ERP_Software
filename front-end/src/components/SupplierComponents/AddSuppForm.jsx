@@ -15,13 +15,29 @@ function AddSuppForm() {
     city: "",
   });
   const [error, setError] = useState("");
+  const [emailError, setEmailError] = useState("");
+
   const [isLoading, setIsLoading] = useState(false);
   const navigate = useNavigate();
 
   const { token } = useSelector((state) => state.admin);
 
+  const validateEmail = (email) => {
+    // Simple regex for basic email format validation
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
+
+    if (name === "email") {
+      if (!validateEmail(value)) {
+        setEmailError("Invalid email format");
+      } else {
+        setEmailError("");
+      }
+    }
 
     setData({
       ...data,
@@ -58,6 +74,11 @@ function AddSuppForm() {
         </div>
 
         <div className="py-10 bg-darkCardColor p-5 w-full max-w-[1400px] rounded">
+          {emailError && (
+            <div>
+              <h1 className="text-red-500">{emailError}</h1>
+            </div>
+          )}
           <div className="grid md:grid-cols-2 gap-6">
             <div className="mb-4 w-full">
               <label

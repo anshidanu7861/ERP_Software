@@ -14,6 +14,7 @@ function Login() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  const [emailError, setEmailError] = useState("");
   const [error, setError] = useState("");
   const [isLoading, setIsLoading] = useState(false);
 
@@ -37,18 +38,28 @@ function Login() {
     }
   };
 
+  const validateEmail = (email) => {
+    // Simple regex for basic email format validation
+    const regex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    return regex.test(email);
+  };
+
   const handleChange = (e) => {
     const { name, value } = e.target;
 
-    console.log(value);
+    if (name === "email") {
+      if (!validateEmail(value)) {
+        setEmailError("Invalid email format");
+      } else {
+        setEmailError("");
+      }
+    }
 
     setData({
       ...data,
       [name]: value,
     });
   };
-
-  console.log(data);
 
   return (
     <div className="flex items-center justify-center min-h-screen ">
@@ -59,6 +70,11 @@ function Login() {
         {error && <p className="text-red-500 mb-4">{error}</p>}
         <form onSubmit={handleSubmit}>
           <div className="mb-4">
+            {emailError && (
+              <div>
+                <h1 className="text-red-500">{emailError}</h1>
+              </div>
+            )}
             <label htmlFor="email" className="block mb-2  text-darkTextColor">
               Email
             </label>
