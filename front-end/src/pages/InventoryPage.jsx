@@ -52,6 +52,7 @@ function InventoryPage() {
       navigate("/transaction");
     } catch (error) {
       console.log(error);
+      setError(error.response.data.errors[0].message);
     }
   };
 
